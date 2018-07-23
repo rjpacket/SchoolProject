@@ -64,7 +64,7 @@
         </div>
 
         <div>
-            <alert v-model="showAlert" title="提示" content="暂不支持录入"></alert>
+            <alert v-model="showAlert" title="提示" :content="content"></alert>
         </div>
     </div>
 </template>
@@ -86,7 +86,8 @@
                 phone: '',
                 email: '',
                 other: '',
-                showAlert: false
+                showAlert: false,
+                content: '暂不支持录入'
             }
         },
         components: {
@@ -113,7 +114,34 @@
         //相关操作事件
         methods: {
             clickConfirm () {
-                this.showAlert = true
+                let that = this;
+                Lib.M.ajax({
+                    'url':'http://47.96.127.217/api/v1/student',
+                    'type': 'post',
+                    'data': {
+                      name: this.name,
+                      sex: this.sex,
+                      year: this.year,
+                      company: this.company,
+                      job: this.job,
+                      phone: this.phone,
+                      email: this.email,
+                      other: this.other
+                    },
+                    'success':function (data){
+                        if(data.code === 1){
+                            that.content = '添加数据成功';
+                            that.showAlert = true;
+                        }else {
+                            that.content = data.msg;
+                            that.showAlert = true;
+                        }
+                    },
+                    'error': function (error) {
+                        that.content = '数据添加异常';
+                        that.showAlert = true;
+                    }
+                });
             }
         }
     }
