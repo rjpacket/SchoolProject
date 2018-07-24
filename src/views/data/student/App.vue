@@ -114,6 +114,12 @@
         //相关操作事件
         methods: {
             clickConfirm () {
+                let reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+                if(!reg.test(this.phone)){
+                    this.content = '看起来这不是一个手机号';
+                    this.showAlert = true;
+                    return ;
+                }
                 let that = this;
                 Lib.M.ajax({
                     'url':'http://47.96.127.217/api/v1/student',
