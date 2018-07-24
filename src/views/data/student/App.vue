@@ -128,12 +128,12 @@
                       email: this.email,
                       other: this.other
                     },
-                    'success':function (data){
-                        if(data.code === 1){
+                    'success':function (response){
+                        if(response.data.code === 1){
                             that.content = '添加数据成功';
                             that.showAlert = true;
                         }else {
-                            that.content = data.msg;
+                            that.content = response.data.msg;
                             that.showAlert = true;
                         }
                     },
